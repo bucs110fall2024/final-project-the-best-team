@@ -13,13 +13,18 @@ class Player:
     #setup pygame data
     
   def move_left(self):
-    self.x -= 5
+    if(self.x>0):
+      self.x -= 5
   def move_right(self):
-    self.x += 5
+    print(self.x)
+    if(self.x<550):
+      self.x += 5
   def move_up(self):
-    self.y -= 5
+    if(self.y>0):
+      self.y -= 5
   def move_down(self):
-    self.y += 5
+    if(self.y<550):
+      self.y += 5
   def turn(self):
     mouse_x, mouse_y = pygame.mouse.get_pos()
     radians = math.atan2((self.y-mouse_y),(mouse_x-self.x))

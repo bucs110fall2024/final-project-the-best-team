@@ -2,9 +2,10 @@ import pygame
 import math
 class Enemy:
   
-    def __init__(self,x,y,image):
+    def __init__(self,x,y,angle,image):
         x.self = x
         y.self = y
+        angle.self = angle
         image.self = image
         #setup pygame data
     def move_to_player(self,player_x,player_y): 
