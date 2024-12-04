@@ -8,16 +8,18 @@ class Player:
     self.angle = angle
     self.image = image
     self.rotated_image = image
+    self.arrows = [0,0,0]
+    self.arrowtype = 0
     #setup pygame data
     
   def move_left(self):
-    self.x -= 2
+    self.x -= 5
   def move_right(self):
-    self.x += 2
+    self.x += 5
   def move_up(self):
-    self.y -= 2
+    self.y -= 5
   def move_down(self):
-    self.y += 2
+    self.y += 5
   def turn(self):
     mouse_x, mouse_y = pygame.mouse.get_pos()
     radians = math.atan2((self.y-mouse_y),(mouse_x-self.x))
