@@ -1,7 +1,7 @@
 import pygame
 
 pygame.init()
-screen = pygame.display.set_mode((800,800))
+screen = pygame.display.set_mode((600,600))
 pygame.display.set_caption("Joe Mann the Bowman")
 icon = pygame.image.load("assets/game_icon.png")
 pygame.display.set_icon(icon)
