@@ -1,10 +1,13 @@
-from player import player
+from player import Player
 import pygame
 class controller: 
   def __init__(self):
    pygame.init()
    self.screen = pygame.display.set_mode(1000,1000)
-   self.player = player(500,500,45,"player.png")
+   self.player = Player(500,500,45,"player.png")
+   self.enemies = [Enemy(10,10,"enemy_image.png")]
+   pygame.display.set_caption("Joe Mann the Bowman")
+   icon = pygame.image.load("game_icon.png")
   def mainloop(self):
    """
    docstring
