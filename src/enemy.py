@@ -11,11 +11,12 @@ class Enemy:
     def move(self,player_x,player_y): 
       radians = math.atan2((self.y-player_y),(player_x-self.x))
       self.angle = (radians * 180)/(math.pi)
+      enemy_speed = 1
       if(player_x>self.x):
-         self.x += 0.1
+         self.x += enemy_speed
       else:
-         self.x -= 0.1
+         self.x -= enemy_speed
       if(player_y>self.y):
-         self.y += 0.1
+         self.y += enemy_speed
       else:
-         self.y -= 0.1
+         self.y -= enemy_speed

@@ -2,6 +2,7 @@ import math
 from src.player import Player
 from src.enemy import Enemy
 from src.arrow import Arrow
+import random
 import pygame
 class Controller: 
   def __init__(self):
@@ -10,34 +11,61 @@ class Controller:
     #player
     self.player = Player(300,300,45,"player_image.png")
     self.player_image = pygame.image.load("assets/player_image.png")
+    #screen
     self.screen = pygame.display.set_mode((600,600))
+    self.backgrounds = []
+    self.backgrounds.append(pygame.image.load("assets/background_image_0_hearts.png"))
+    self.backgrounds.append(pygame.image.load("assets/background_image_1_hearts.png"))
+    self.backgrounds.append(pygame.image.load("assets/background_image_2_hearts.png"))
+    self.backgrounds.append(pygame.image.load("assets/background_image_3_hearts.png"))    
     pygame.display.set_caption("Joe Mann the Bowman")
     icon = pygame.image.load("assets/game_icon.png")
     pygame.display.set_icon(icon)
     #enemies
     self.enemies = []#List of all enemies on screen
-    self.enemy_image = pygame.image.load("assets\enemy_image.png")
+    self.enemy_image = pygame.image.load("assets/enemy_image.png")
     #arrows
     self.arrows = [] #List of all arrows on screen
     self.arrow_image = pygame.image.load("assets/arrow_image.png")
     self.arrow_images = []
   def on_screen(self,x,y):
-    if((x<600 and x>0) and(y<600 and y>0)):
+    if((x<600 and x>0) and(y<600 and y>80)):
         return True
     return False
   def detect_collision(self,collider,collided):
     if((collided.x+50>collider.x and collider.x>collided.x)and(collided.y+50>collider.y and collider.y>collided.y)):
         return True
     return False
-
+  
+  def detect_enemy_collision(self,collider,collided):
+    if((collided.x+50>collider.x and collider.x>collided.x)and(collided.y+50>collider.y and collider.y>collided.y)):
+      return True
+    elif((collided.x+50>collider.x+50 and collider.x+50>collided.x)and(collided.y+50>collider.y and collider.y>collided.y)):
+      return True
+    elif((collided.x+50>collider.x+50 and collider.x+50>collided.x)and(collided.y+50>collider.y+50 and collider.y+50>collided.y)):
+      return True
+    elif((collided.x+50>collider.x and collider.x>collided.x)and(collided.y+50>collider.y+50 and collider.y+50>collided.y)):
+      return True
+    return False
+    
   def mainloop(self):
-    while True:
-      self.screen.fill((0,128,0))
+    running = True
+    while running:
+      self.screen.blit(self.backgrounds[self.player.hearts],(0,0))
       self.current_tick+=1
       if self.current_tick==1000:
-        self.enemies.append(Enemy(0,0,45,"enemy_image.png"))
+        #Decides enemy spawn point
+        random_num = random.randint(1,3)
+        if(random_num==1):
+          enemy_y = random.randint(80,600)
+          self.enemies.append(Enemy(-100,enemy_y,0,"enemy_image.png"))
+        elif(random_num==2):
+          enemy_y = random.randint(80,600)
+          self.enemies.append(Enemy(650,enemy_y,0,"enemy_image.png"))
+        else:
+          enemy_x = random.randint(0,600)
+          self.enemies.append(Enemy(enemy_x,650,0,"enemy_image.png"))
         self.current_tick=0
-        self.screen.fill((0,128,0))
       rotated_player_image = pygame.transform.rotate(self.player_image,self.player.angle)
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -68,6 +96,13 @@ class Controller:
           self.enemies[i].move(self.player.x,self.player.y)
           l = len(self.arrows)
           k = 0
+          if(self.detect_enemy_collision(self.enemies[i],self.player)):
+            self.enemies.pop(i)
+            self.player.hearts -= 1
+            if self.player.hearts<1:
+              running = False
+            i-=1
+            j-=1
           while(k<l):
             if (self.enemies and (self.detect_collision(self.arrows[k],self.enemies[i]))):
               self.enemies.pop(i)
@@ -98,4 +133,17 @@ class Controller:
       self.screen.blit(rotated_player_image,(self.player.x,self.player.y))
 #4. Display next frame
       pygame.display.flip()
+  def gameoverloop(self):
+    gameover_image_1 = pygame.image.load("assets/gameover_image_1.png")
+    gameover_image_2 = pygame.image.load("assets/gameover_image_2.png")
+    end_button = pygame.Rect(108,469,393,91)
+    cursor_x,cursor_y = pygame.mouse.get_cursor()
+    if(pygame.Rect(end_button,(cursor_x,cursor_y))):
+      self.screen.blit(gameover_image_2,(0,0))
+      if pygame.mouse.get_pressed()[0]:
+        exit()
+    else:
+      self.screen.blit(gameover_image_2,(0,0))
+
+
  

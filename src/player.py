@@ -10,6 +10,7 @@ class Player:
     self.rotated_image = image
     self.arrows = [0,0,0]
     self.arrowtype = 0
+    self.hearts = 3
     #setup pygame data
     
   def move_left(self):
@@ -19,7 +20,7 @@ class Player:
     if(self.x<550):
       self.x += 5
   def move_up(self):
-    if(self.y>0):
+    if(self.y>80):
       self.y -= 5
   def move_down(self):
     if(self.y<550):
