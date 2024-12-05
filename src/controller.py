@@ -53,7 +53,7 @@ class Controller:
     while running:
       self.screen.blit(self.backgrounds[self.player.hearts],(0,0))
       self.current_tick+=1
-      if self.current_tick==1000:
+      if self.current_tick==100:
         #Decides enemy spawn point
         random_num = random.randint(1,3)
         if(random_num==1):
@@ -100,7 +100,7 @@ class Controller:
             self.enemies.pop(i)
             self.player.hearts -= 1
             if self.player.hearts<1:
-              running = False
+              self.gameoverloop()
             i-=1
             j-=1
           while(k<l):
@@ -134,16 +134,24 @@ class Controller:
 #4. Display next frame
       pygame.display.flip()
   def gameoverloop(self):
-    gameover_image_1 = pygame.image.load("assets/gameover_image_1.png")
-    gameover_image_2 = pygame.image.load("assets/gameover_image_2.png")
-    end_button = pygame.Rect(108,469,393,91)
-    cursor_x,cursor_y = pygame.mouse.get_cursor()
-    if(pygame.Rect(end_button,(cursor_x,cursor_y))):
-      self.screen.blit(gameover_image_2,(0,0))
-      if pygame.mouse.get_pressed()[0]:
-        exit()
-    else:
-      self.screen.blit(gameover_image_2,(0,0))
+    running = True
+    while running:
+      gameover_image_1 = pygame.image.load("assets/gameover_image_1.png")
+      gameover_image_2 = pygame.image.load("assets/gameover_image_2.png")
+      cursor_x, cursor_y = pygame.mouse.get_pos()
+      for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+          pygame.quit()
+          exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+         if 108 < cursor_x < 501 and 469 < cursor_y < 560:
+          pygame.QUIT()
+      if 108 < cursor_x < 501 and 469 < cursor_y < 560:
+        self.screen.blit(gameover_image_2, (0, 0))
+      else:
+        self.screen.blit(gameover_image_1, (0, 0))           
+      pygame.display.flip()
+
 
 
  
