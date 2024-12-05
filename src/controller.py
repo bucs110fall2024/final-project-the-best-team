@@ -2,6 +2,7 @@ import math
 from src.player import Player
 from src.enemy import Enemy
 from src.arrow import Arrow
+from src.arrow_bag import Arrow_Bag
 import random
 import pygame
 class Controller: 
@@ -82,8 +83,10 @@ class Controller:
           self.player.move_right()
         if event.type == pygame.KEYDOWN:
           if event.key == pygame.K_e:
-            self.arrows.append(Arrow(self.player.x,self.player.y,self.player.angle,"assets/arrow_image.png"))
-            self.arrow_images.append(pygame.transform.rotate(self.arrow_image,self.arrows[len(self.arrows)-1].angle))
+            if(self.player.arrows):
+              self.arrows.append(Arrow(self.player.x,self.player.y,self.player.angle,"assets/arrow_image.png"))
+              self.arrow_images.append(pygame.transform.rotate(self.arrow_image,self.arrows[len(self.arrows)-1].angle))
+              self.player.arrows -= 1
 #2. detect collisions and update models
         self.player.turn()
 #Player model being updated
@@ -115,9 +118,8 @@ class Controller:
             k+=1
           i+=1
 #Arrow models being updated
-      ##print("Number of Arrows:",len(self.arrows))
       if(self.arrows):
-        j = len(self.arrows)#THESE VARIABLES HAVE VERY NONDESCRIPT NAMES. CHANGE LATER
+        j = len(self.arrows)
         i = 0
         while (i<j): #This has to be a while loop because the range has to be able to change in the middle of the loop
           self.screen.blit(self.arrow_images[i],(self.arrows[i].x, self.arrows[i].y))
@@ -132,6 +134,18 @@ class Controller:
 #3. Redraw next frame
       self.screen.blit(rotated_player_image,(self.player.x,self.player.y))
 #4. Display next frame
+      pygame.display.flip()
+  def startmenuloop(self):
+    running = True
+    while running:
+      menu_image = pygame.image.load("assets/start_menu_image.png")
+      for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+          pygame.quit()
+          exit()
+        if event.type == pygame.KEYDOWN:    
+          running = False   
+      self.screen.blit(menu_image, (0, 0))    
       pygame.display.flip()
   def gameoverloop(self):
     running = True

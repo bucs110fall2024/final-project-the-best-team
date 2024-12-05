@@ -11,6 +11,7 @@ class Player:
     self.arrows = [0,0,0]
     self.arrowtype = 0
     self.hearts = 3
+    self.arrows = 10
     #setup pygame data
     
   def move_left(self):
