@@ -16,7 +16,6 @@ class Player:
     if(self.x>0):
       self.x -= 5
   def move_right(self):
-    print(self.x)
     if(self.x<550):
       self.x += 5
   def move_up(self):
