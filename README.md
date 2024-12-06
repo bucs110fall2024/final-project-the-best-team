@@ -133,11 +133,11 @@ Test Case 8: Quiver Pickup detection
 
 Test Case 9: Start Menu Navigation
 
-Test Description: Verify that the program handles unexpected inputs gracefully.
-Test Steps:
-Start the game.
-Press any button
-Ensure player reaches main screen with health, arrow amount, and player character in center
-Expected Outcome: User reaches main screen.
+    Test Description: Verify that the program handles unexpected inputs gracefully.
+    Test Steps:
+    Start the game.
+    Press any button
+    Ensure player reaches main screen with health, arrow amount, and player character in center
+    Expected Outcome: User reaches main screen.
 
 
