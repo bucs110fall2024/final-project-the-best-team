@@ -57,6 +57,7 @@ Test Case 3: Arrow Flight Direction
     Verify that the tip of arrow is parralel to the direction of the arrows trajectory
     Verify that this happens when player is facing NE, NW, SE, and SW directions
     Expected Outcome: Arrows should go towards the direction of the cursor towards the player and the arrows model should be facing the correct direction, which is with the head of the arrow being at the front
+
 Test Case 4: Enemy Movement
     Test Description: Ensure that enemies are moving towards player
     Test Steps:
@@ -68,6 +69,7 @@ Test Case 4: Enemy Movement
     Verify that enemies are still moving towards player
     Verify that enemies will eventually reach the players location
     Expected Outcome: Enemies should always move towards the player
+
 Test Case 5: Arrow collision detection
     Test Description: Ensure that when an arrow hits an enemie that the enemy is killed
     Test Steps:
@@ -78,6 +80,7 @@ Test Case 5: Arrow collision detection
     Wait for arrow to hit target
     Ensure when arrow hits enemy that both the enemy and arrow are deleted
     Expected Outcome: When arrows hit enemies both object should be removed from the game.
+
 Test Case 6: Enemy collision detection
     Test Description: Ensure that collisions between the player and enemies damage the player.
     Test Steps:
@@ -87,6 +90,7 @@ Test Case 6: Enemy collision detection
     Ensure enemy touches player
     Ensure enemy is deleted and top left bar shows one less heart of health
     Expected Outcome: Enemy should be killed after touching player and player should lose 1 heart
+    
 Test Case 7: Game Over Condition
     Test Description: Confirm that the game ends when the player loses all lives.
     Test Steps:
