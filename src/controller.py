@@ -2,7 +2,7 @@ import math
 from src.player import Player
 from src.enemy import Enemy
 from src.arrow import Arrow
-from src.arrow_bag import Arrow_Bag
+from src.quiver import Quiver
 import random
 import pygame
 class Controller: 
@@ -29,12 +29,17 @@ class Controller:
     self.arrows = [] #List of all arrows on screen
     self.arrow_image = pygame.image.load("assets/arrow_image.png")
     self.arrow_images = []
+    #quivers
+    self.quivers = []#List of all quivers on screen
+    self.quiver_image = pygame.image.load("assets/quiver_image.png")
+    #font
+    self.font = pygame.font.Font('freesansbold.ttf', 32)
   def on_screen(self,x,y):
     if((x<600 and x>0) and(y<600 and y>80)):
         return True
     return False
-  def detect_collision(self,collider,collided):
-    if((collided.x+50>collider.x and collider.x>collided.x)and(collided.y+50>collider.y and collider.y>collided.y)):
+  def detect_collision(self,x,y,collided):
+    if((collided.x+50>x and x>collided.x)and(collided.y+50>y and y>collided.y)):
         return True
     return False
   
@@ -54,7 +59,9 @@ class Controller:
     while running:
       self.screen.blit(self.backgrounds[self.player.hearts],(0,0))
       self.current_tick+=1
-      if self.current_tick==100:
+      if self.current_tick%500==0:
+        self.quivers.append(Quiver())
+      if self.current_tick%150==0:
         #Decides enemy spawn point
         random_num = random.randint(1,3)
         if(random_num==1):
@@ -66,6 +73,7 @@ class Controller:
         else:
           enemy_x = random.randint(0,600)
           self.enemies.append(Enemy(enemy_x,650,0,"enemy_image.png"))
+      if self.current_tick==1000:
         self.current_tick=0
       rotated_player_image = pygame.transform.rotate(self.player_image,self.player.angle)
       for event in pygame.event.get():
@@ -84,7 +92,7 @@ class Controller:
         if event.type == pygame.KEYDOWN:
           if event.key == pygame.K_e:
             if(self.player.arrows):
-              self.arrows.append(Arrow(self.player.x,self.player.y,self.player.angle,"assets/arrow_image.png"))
+              self.arrows.append(Arrow(self.player.x+25,self.player.y+25,self.player.angle,"assets/arrow_image.png"))
               self.arrow_images.append(pygame.transform.rotate(self.arrow_image,self.arrows[len(self.arrows)-1].angle))
               self.player.arrows -= 1
 #2. detect collisions and update models
@@ -107,7 +115,7 @@ class Controller:
             i-=1
             j-=1
           while(k<l):
-            if (self.enemies and (self.detect_collision(self.arrows[k],self.enemies[i]))):
+            if (self.enemies and (self.detect_collision(self.arrows[k].x,self.arrows[k].y,self.enemies[i]))):
               self.enemies.pop(i)
               self.arrows.pop(k)
               self.arrow_images.pop(k)
@@ -131,8 +139,21 @@ class Controller:
             i -= 1
             j -= 1
           i+=1
+#Quiver Models being updated
+      if(self.quivers):
+        j = len(self.quivers)
+        i = 0
+        while (i<j): #This has to be a while loop because the range has to be able to change in the middle of the loop
+          self.screen.blit(self.quiver_image,(self.quivers[i].x, self.quivers[i].y))
+          if(self.detect_collision(self.quivers[i].x+15,self.quivers[i].y+15,self.player)):
+            self.player.arrows += random.randint(2,6)
+            self.quivers.pop(i)
+            i -= 1
+            j -= 1
+          i+=1
 #3. Redraw next frame
       self.screen.blit(rotated_player_image,(self.player.x,self.player.y))
+      self.screen.blit(self.font.render(str(self.player.arrows), True, (0,0,0)), (540, 20))
 #4. Display next frame
       pygame.display.flip()
   def startmenuloop(self):
