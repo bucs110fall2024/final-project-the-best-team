@@ -1,4 +1,3 @@
-import math
 from src.player import Player
 from src.enemy import Enemy
 from src.arrow import Arrow
